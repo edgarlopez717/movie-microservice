@@ -68,17 +68,21 @@ The REST API to the example app is described below.
 
 ## Get movie details
 
-**Method** : `GET /movie/details?id=<number>`
+**Method** : `GET /movie/details?id=<number>` or `GET /movie/details?title=<String>`
 
-**URL** : `http://localhost:8080/details?id=<number>`
+**URL** : `http://localhost:8080/details?id=<number>` or `http://localhost:8080/details?title=<String>`
 
 **Parameters** :
 
-	id (required)
+	id (required if title not specified)
 		default value = N/A
 		constraint = Must be a non-negative number.
 
-**Description** : `Endpoint to get the details of the movie specified (by movie id).`
+	title (required if id not specified)
+		default value = N/A
+		constraint = N/A
+
+**Description** : `Endpoint to get the details of the movie specified either by id or title.`
 
 ### Success Response
 

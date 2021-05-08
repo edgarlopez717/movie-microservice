@@ -2,6 +2,7 @@ package moviemicroservice.movie;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
@@ -60,14 +61,34 @@ public class MovieController {
 	 */
 	@GetMapping(path="/details", produces="text/plain")
 	@ResponseBody
-	public String getMovieDetails(@RequestParam(name = "id") Integer movieId) {
-		Optional<Movie> movie = movieService.findMovieById(movieId);
+	public String getMovieDetails(@RequestParam(name = "id", required = false) Integer movieId,
+			@RequestParam(name = "title", required = false) String movieTitle) {
+		Optional<Movie> movie;
+		if(Objects.nonNull(movieId)) {
+			movie = movieService.findMovieById(movieId);
+		} else {
+			movie = movieService.findMovieByName(movieTitle);
+		}
 		
 		if(movie.isPresent()) {
 			List<Double> ratingsValues = ratingService.getRatingsByMovieId(movieId);
 			return MovieUtils.getMovieDetails(movie.get(), ratingsValues);
 		} else {
-			throw new RecordNotFoundException("Record not found for movie id: " + movieId);
+			throw new RecordNotFoundException("Record not found for movie: " + movieId + "," + movieTitle);
+		}
+	}
+	
+	@GetMapping(path="/search", produces="text/plain")
+	@ResponseBody
+	public String searchMovie(@RequestParam(name = "year") Integer year, 
+			@RequestParam(defaultValue = "0", name = "page") @Min(value = 0, message = "Page number must be greater than 0.") Integer pageNumber) {
+		List<Movie> movies = movieService.getMoviesReleasedInYear(year, pageNumber, DEFAULT_ENTRIES_PER_PAGE);
+		
+		if(movies.isEmpty()) {
+			//Throw an error message or just send an empty list?
+			throw new RecordNotFoundException("No movies were produced in the year: " + year);
+		} else {
+			return MovieUtils.moviePageToString(movies);
 		}
 	}
 	
