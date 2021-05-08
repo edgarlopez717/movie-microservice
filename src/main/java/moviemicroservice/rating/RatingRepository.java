@@ -1,9 +1,10 @@
 package moviemicroservice.rating;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
 
-//This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
-//CRUD refers Create, Read, Update, Delete
-public interface RatingRepository extends CrudRepository<Rating, Integer> {
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
+public interface RatingRepository extends PagingAndSortingRepository<Rating, Integer> {
+	List<Rating> findByMovieId(@Param("movieid") Integer movieId);
 }

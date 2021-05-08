@@ -111,5 +111,10 @@ public class Movie {
 		this.status = status;
 	}
 	
+	@Override
+	public String toString() {
+		return "hello";
+	}
+	
 	
 }

@@ -16,7 +16,6 @@ public class RatingController {
   @GetMapping(path="/all")
   public @ResponseBody Iterable<Rating> getAllRatings() {
     // This returns a JSON or XML with the users
-	  System.out.println("hello inside all");
     return ratingRepository.findAll();
   }
 }
