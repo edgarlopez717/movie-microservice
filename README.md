@@ -15,14 +15,16 @@ The project is a maven project.
 
     java -jar movie-microservice-0.0.1.jar
     or
+    
     To specify a custom application.properties file (to be able to specify a different database location) use:
+    
     java -jar movie-microservice-0.0.1.jar --spring.config.location=<path_to_application_properties>
 
     A sample application.properties file can be found under /target/classes/ after building with maven.
 
 # REST API Description
 
-The REST API to the example app is described below.
+The REST API is described below.
 
 ## Get list of movies
 
